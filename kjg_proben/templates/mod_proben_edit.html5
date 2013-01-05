@@ -1,0 +1,54 @@
+<!-- indexer::stop -->
+
+<div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+<?php if ($this->headline): ?>
+
+<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+<?php endif; ?>
+  <span> &nbsp;{{link::back}}</span>
+<div class="form">
+<form action="<?php echo $this->action; ?>" method="post">
+<div class="formbody">
+<input type="hidden" name="FORM_SUBMIT" value="probenform_submit" />
+<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+<?php foreach ($this->fields as $objWidget): ?>
+<div class="widget">
+<?php if ($objWidget instanceof FormCaptcha): ?>
+<div class="widget captcha">
+  <div class="label_wrap">
+    <label for="ctrl_captcha">{{iflng::en}}Security question{{iflng}}{{iflng::de}}Sicherheitsfrage{{iflng}}<sup class="mandatory">*</sup>&nbsp;<strong><?php echo $objWidget->generateQuestion(); ?></strong>&nbsp;</label>
+  </div>
+  <?php echo $objWidget->generateWithError(); ?>
+</div>
+
+<?php elseif ($objWidget instanceof FormTextArea): ?>
+
+<div class="widget">
+  <div class="label_wrap">
+    <label for="ctrl_comment">{{iflng::en}}Comment{{iflng}}{{iflng::de}}Kommentar{{iflng}}<sup class="mandatory">*</sup></label>
+  </div>
+  <?php echo $objWidget->generateWithError(); ?>
+</div>
+
+<?php else: ?>
+
+<div class="widget">
+  <div class="label_wrap"><?php echo str_replace('</label>', '', $objWidget->generateLabel()); ?><?php if ($objWidget->required): ?><sup class="mandatory">*</sup><?php endif; ?></label>
+  </div>
+  <?php echo $objWidget->generateWithError(); ?>
+</div>
+<?php endif; ?>
+</div>
+<?php endforeach; ?>
+  <span class="submit_container">
+  <input type="submit" class="submit" value="<?php echo $this->submit; ?>" />
+  </span>
+  <span> &nbsp;{{link::back}}</span>
+</div>
+</form>
+</div>
+<?php if($this->addthis):?>
+	<?php echo $this->addthis; ?>
+<?php endif; ?>
+</div>
+<!-- indexer::continue -->

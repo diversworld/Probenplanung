@@ -1,0 +1,78 @@
+
+<div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+<?php if ($this->headline): ?>
+
+<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+<?php endif; ?>
+
+<section class="ce_table block">
+<?php
+	$xyz=0;
+	$row = 0;
+
+	foreach ($this->probe as $probe)
+	{
+		if( $id != $probe['pid'] && $xyz == 1 )
+		{
+			echo '</tbody>';
+			echo '</table>';
+		}
+
+		if( $id != $probe['pid'] )
+		{
+			$xyz = 1;
+
+			$id = $probe['pid'];
+
+			echo '<br><p><h2>'.$probe['slotdate'].'</h2></p>';
+?>
+			<table cellpadding="2" cellspacing="2" border="0" summary="Probeniste">
+				<thead>
+					<tr>
+					<th class="head_0">Zeit</th>
+					<th class="head_1">Gruppe</th>
+					<th class="head_2">Ansprechp.</th>
+					<th class="head_3">Musik/Licht</th>
+					<th class="head_4">Hinweise</th>
+					<th class="head_5">&nbsp;</th>
+					</tr>
+				</thead>
+			<tbody>
+<?php
+		}
+?>
+		<tr>
+			<td valign="top" width="80">
+				<?php echo $probe['title']; ?>
+			</td>
+			<td valign="top">
+				<?php echo $probe['gruppe']; ?>
+			</td>
+			<td valign="top">
+				<?php echo $probe['firstname'] .' '. $probe['lastname']; ?>
+			</td>
+			<td valign="top">
+				<?php echo nl2br($probe['music']); ?>
+			</td>
+			<td valign="top">
+				<?php echo nl2br($probe['info']); ?>
+			</td>
+			<td valign="top">
+				<?php echo '<a href="{{env::path}}index.php/{{page::alias}}/ins/'.$probe['id'].'.html">
+				<img src="system/modules/kjg_proben/assets/images/edit.gif" alt="Eintrag editieren"></a>&nbsp;'; ?>
+				<?php //echo '<a href="{{env::path}}index.php/{{page::alias}}/del/'.$probe['id'].'.html">
+				<img src="system/modules/kjg_proben/assets/images/delete.gif" alt="Eintrag löschen"></a>'; ?>
+				<?php echo '<a href="{{env::path}}index.php/{{page::alias}}/vie/'.$probe['id'].'.html">
+                <img src="system/modules/kjg_proben/assets/images/details.gif" alt="Eintrag anzeigen"></a>&nbsp;'; ?>
+			</td>
+		</tr>
+<?php
+		$row++;
+	};
+?>
+	</tbody>
+	</table>
+</section>
+
+</div>
+
